@@ -14,7 +14,7 @@ export class UserService {
   constructor(private http: Http) {
     this.storage = new Storage(SqlStorage);
     //this.storage.query("CREATE TABLE IF NOT EXISTS token (id INTEGER PRIMARY KEY AUTOINCREMENT, token TEXT)");
-    this.loggedIn = !!localStorage.getItem('auth_token');
+    //this.loggedIn = !!localStorage.getItem('auth_token');
   }
 
   login(username, password) {
@@ -30,9 +30,9 @@ export class UserService {
       .map(res => res.json())
       .map((res) => {
         if (res.success) {
-          localStorage.setItem('auth_token', res.token);
+          //this.storage.set('auth_token', res.token);
           //this.storage.query("INSERT INTO token (token) VALUES (?)", [res.token]);
-          this.storage.set("token", res.token);
+          this.storage.set("auth_token", res.token);
           this.loggedIn = true;
         }
 
@@ -41,7 +41,7 @@ export class UserService {
   }
   
   logout() {
-    localStorage.removeItem('auth_token');
+    this.storage.remove('auth_token');
     this.loggedIn = false;
   }
 

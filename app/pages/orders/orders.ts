@@ -8,13 +8,13 @@ import {OrderPage} from '../order/order';
   providers: [OrderService]
 })
 export class OrdersPage {
-  private orders = null;
+  private orders : any;
   constructor(private orderService: OrderService, private navCtrl: NavController) {
   
   }
   
   getOrders(refresher){
-    //console.log(JSON.stringify(this.orders));
+    console.log(JSON.stringify(this.orders));
     console.log("OrdersPage getOrders started");
     this.orderService.fetchOrders().subscribe(
           res => {
@@ -24,15 +24,15 @@ export class OrdersPage {
             refresher.complete();
           }
       );
-    //console.log(JSON.stringify(this.orders));
+    console.log(JSON.stringify(this.orders));
   }
   
   // itemSelected(order_id) { 
   //   console.log("Heading OrderPage");
-  //   // order = this.orderService.getOrder(order_id);
-  //   // console.log(JSON.stringify(order));
-  //   // this.navCtrl.push(OrderPage, {
-  //   //   order: order
-  //   // });
+  //   let order = this.orderService.getOrder(order_id);
+  //   console.log(JSON.stringify(order));
+  //   this.navCtrl.push(OrderPage, {
+  //     order: order
+  //   });
   // }
 }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {UserService} from './userservice';
-import {ContactPage} from '../contact/contact';
+import {OrdersPage} from '../orders/orders';
 
 @Component({
   templateUrl: 'build/pages/settings/settings.html',
@@ -14,7 +14,7 @@ export class SettingsPage {
   login(username, password) {
       this.userService.login(username, password).subscribe((result) => {
           if (result) {
-            this.navCtrl.setRoot(ContactPage);
+            this.navCtrl.setRoot(OrdersPage);
           }
         });
   }

@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Storage, LocalStorage, SqlStorage } from 'ionic-angular';
+import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class OrderService {  
     
-    private storage = null;
-    private orders = null;
+    private storage :Storage;
+    private orders :any;
     private authToken = null;
 
     constructor(private http:Http) {
         this.storage = new Storage(SqlStorage);
-        this.storage.get("token").then((token) => {
+        this.storage.get("auth_token").then((token) => {
+            console.log(token);
             this.authToken = token;
         });
-        //this.storage.query("CREATE TABLE IF NOT EXISTS order (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER, name TEXT, pickup_date TEXT)");
     }
   
     fetchOrders() {
@@ -50,13 +51,15 @@ export class OrderService {
     //     return this.orders;
     // }
     // getOrder(order_id) {
-    //     if(!this.orders)
-    //         this.fetchOrders();
-    //     // for(let order in this.orders)
-    //     //     if(order.id == order_id) {
-    //     //         console.log("OrderService.getOrder:" + JSON.stringify(order));
-    //     //         return this.orders[i];
-    //     //     }
-    //     console.log("OrderService.getOrder done");
+    //     return Observable.create(observer => {
+    //         if(!this.orders)
+    //             this.fetchOrders();
+    //         for(let order of this.orders)
+    //             if(order.id == order_id) {
+    //                 console.log("OrderService.getOrder:" + JSON.stringify(order));
+    //                 return order;
+    //             }
+    //         console.log("OrderService.getOrder done");
+    //     });
     // }
 }

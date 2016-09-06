@@ -7,7 +7,7 @@ import {OrderService} from './../orders/orderservice';
   providers: [OrderService]
 })
 export class OrderPage {
-  private order = null;
+  private order :any;
   constructor(private orderService: OrderService, private navCtrl: NavController) {
     //console.log("constructing OrderPage");
   }
