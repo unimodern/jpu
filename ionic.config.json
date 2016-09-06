@@ -1,0 +1,16 @@
+{
+  "name": "jpAdmin",
+  "app_id": "",
+  "v2": true,
+  "typescript": true,
+  "proxies": [
+    {
+      "path": "/api/rest/login",
+      "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/login"
+    },
+    {
+      "path": "/rest/orders",
+      "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/orders"
+    }
+  ]
+}
