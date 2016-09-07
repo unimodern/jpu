@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {UserService} from './userservice';
+import {UserService} from '../../services/userservice';
 import {OrdersPage} from '../orders/orders';
 
 @Component({
@@ -14,7 +14,11 @@ export class SettingsPage {
   login(username, password) {
       this.userService.login(username, password).subscribe((result) => {
           if (result) {
-            this.navCtrl.setRoot(OrdersPage);
+            if(this.navCtrl.canGoBack()){
+              this.navCtrl.pop();
+            } else {
+              this.navCtrl.setRoot(OrdersPage);
+            }
           }
         });
   }

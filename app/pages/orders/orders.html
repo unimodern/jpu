@@ -10,7 +10,7 @@
     <ion-refresher-content></ion-refresher-content>
 </ion-refresher>
   <ion-list inset>
-    <ion-item *ngFor="let order of orders">
+    <ion-item *ngFor="let order of orders" (click)="itemSelected(order.id)">
       {{order.name}}
     </ion-item>
   </ion-list>

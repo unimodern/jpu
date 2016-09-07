@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {OrderService} from './../orders/orderservice';
+import {NavController, NavParams} from 'ionic-angular';
+import {OrderService} from '../../services/orderservice';
 
 @Component({
   templateUrl: 'build/pages/order/order.html',
@@ -8,8 +8,9 @@ import {OrderService} from './../orders/orderservice';
 })
 export class OrderPage {
   private order :any;
-  constructor(private orderService: OrderService, private navCtrl: NavController) {
-    //console.log("constructing OrderPage");
+  constructor(private orderService: OrderService, private navCtrl: NavController, private navParams: NavParams) {
+    this.order = navParams.get('order');
+    console.log("constructing OrderPage"+JSON.stringify(this.order));
   }
   
 
