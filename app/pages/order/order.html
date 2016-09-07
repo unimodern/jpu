@@ -6,5 +6,37 @@
 
 <ion-content padding class="order">
   <h2>Order #{{order.pin}}</h2>
-  <p>Name: {{order.name}}</p>
+  <p>{{order.name}}</p>
+  <p>{{order.phone}}</p>
+  <p>{{order.email}}</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-40>Sub Total</ion-col>
+      <ion-col width-60>${{order.sub_total/100}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-40>Tip</ion-col>
+      <ion-col width-60>${{order.tip/100}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-40>Tax</ion-col>
+      <ion-col width-60>${{order.tax/100}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-40>Total</ion-col>
+      <ion-col width-60>${{order.total/100}}</ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let orderProduct of orderProducts">
+      {{orderProduct.product_id}}
+      <ion-item *ngFor="let item of orderProduct.options">
+        {{item.title}}
+      </ion-item>
+    </ion-item>
+  </ion-list>
+  <p [innerHTML]="order.note"></p>
+  <p>Client message: {{order.message}}</p>
+
+  
 </ion-content>

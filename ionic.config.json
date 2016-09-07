@@ -11,6 +11,10 @@
     {
       "path": "/rest/orders",
       "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/orders"
+    },
+    {
+      "path": "/rest/products",
+      "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/products"
     }
   ]
 }

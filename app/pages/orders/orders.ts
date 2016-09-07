@@ -22,8 +22,10 @@ export class OrdersPage {
           this.navCtrl.push(SettingsPage);
         }
       });
-      this.orderService.loadOrders().then(orders => {
-        this.orders=orders;
+      this.orderService.loadOrders().then(
+      res => {
+        console.log("orders loaded:" +JSON.stringify(res));
+        this.orders=res;
       });
   }
   
