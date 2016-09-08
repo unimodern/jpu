@@ -11,7 +11,7 @@
 </ion-refresher>
   <ion-list inset>
     <ion-item *ngFor="let order of orders" (click)="itemSelected(order.id)">
-      {{order.name}}
+      {{order.name}} #{{order.pin}} <ion-badge item-right>{{order.status}}</ion-badge>
     </ion-item>
   </ion-list>
 </ion-content>

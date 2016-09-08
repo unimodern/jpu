@@ -47,9 +47,10 @@ export class OrdersPage {
     console.log("Heading OrderPage: "+order_id);
     this.orderService.getOrder(order_id).then(
       res => {
-        console.log(JSON.stringify(res));
+        console.log("itemSelected:" + JSON.stringify(res));
         this.navCtrl.push(OrderPage, {
-          order: res
+          order: res.order,
+          orderProducts: res.orderProducts
         });
       });
   }

@@ -112,7 +112,9 @@ export class ProductService {
         return this.storage.query('SELECT * FROM app_product WHERE id=?', [product_id]).then(
             (resp) => {
                 console.log("Got product: ("+JSON.stringify(resp)+")");
-                return resp.res.rows.item(0);
+                let product = resp.res.rows.item(0);
+                product.options = JSON.parse(product.option);
+                return product;
             },
             (error) => {
                 console.log("Product fetch error" + JSON.stringify(error));

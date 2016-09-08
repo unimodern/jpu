@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Storage, LocalStorage, SqlStorage } from 'ionic-angular';
+import { Storage, SqlStorage } from 'ionic-angular';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
@@ -9,6 +9,7 @@ export class OrderService {
     
     private storage :Storage;
     private orders :any;
+    private order :any;
     private authToken = null;
 
     constructor(private http:Http) {
@@ -135,8 +136,8 @@ export class OrderService {
     }
   
     loadOrders() {
-        console.log("Getting orders: (select * from app_product)");
-        return this.storage.query('SELECT * FROM app_product').then(
+        console.log("Getting orders: (select * from app_order)");
+        return this.storage.query('SELECT * FROM app_order').then(
             (resp) => {
                 let orders = [];
                 if (resp.res.rows.length > 0) {
@@ -157,7 +158,41 @@ export class OrderService {
         return this.storage.query('SELECT * FROM app_order WHERE id=?', [order_id]).then(
             (resp) => {
                 console.log("Got order: ("+JSON.stringify(resp)+")");
-                return resp.res.rows.item(0);
+                if (resp.res.rows.length > 0) {
+                    this.order = resp.res.rows.item(0);
+                    console.log("order: " + JSON.stringify(this.order));
+                    let orderProducts = JSON.parse(this.order.products);
+                    console.log("orderProducts: " + JSON.stringify(orderProducts) + "length: " + orderProducts.length);
+                    let orderProductsIds = [];
+                    for(var i=0; i < orderProducts.length; i++) {
+                        orderProductsIds.push(orderProducts[i].product_id);
+                    }
+                    console.log("orderProductsIds: " + JSON.stringify(orderProductsIds));
+                    let sql = "SELECT * FROM app_product WHERE id in (" + (orderProductsIds.toString()) + ")";
+                    console.log("Sql: " + sql);
+                    return this.storage.query(sql).then((resp) =>{
+                        let products = [];
+                        if (resp.res.rows.length > 0) {
+                            for (var i = 0; i < resp.res.rows.length; i++) {
+                              products.push(resp.res.rows.item(i));
+                            }
+                          }
+                        for(var i = 0; i < orderProducts.length; i++) {
+                            for(var j = 0; j < products.length; j++)
+                                if(products[j].id == orderProducts[i].product_id) {
+                                    orderProducts[i].product = products[j];
+                                    orderProducts[i].product.options = JSON.parse(orderProducts[i].product.option);
+                                }
+                            orderProducts[i].option = JSON.parse(orderProducts[i].options);
+                        }
+
+                        console.log("order ret: " + JSON.stringify({order:this.order, orderProducts:orderProducts}));
+                        return {order:this.order, orderProducts:orderProducts};
+                        
+                    });
+                    
+                }
+
             },
             (error) => {
                 console.log("Order fetch error" + JSON.stringify(error));
