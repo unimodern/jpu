@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Storage, LocalStorage, SqlStorage } from 'ionic-angular';
+import { Storage, SqlStorage } from 'ionic-angular';
 import {Observable} from 'rxjs/Rx';
+import {UserService} from './userservice';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class ProductService {  
+export class ProductService {   
     
     private storage :Storage;
     private products :any;
-    private authToken = null;
 
-    constructor(private http:Http) {
+    constructor(private http:Http, private userService: UserService) {
         this.storage = new Storage(SqlStorage);
         this.storage.query("CREATE TABLE IF NOT EXISTS app_product (" +
             "id INTEGER UNIQUE, " +
@@ -35,25 +35,15 @@ export class ProductService {
             (error) => {
                 console.log("Create product table fail: ("+JSON.stringify(error)+")");
             });
-        this.storage.get("auth_token").then(
-            (token) => {
-                console.log(token);
-                this.authToken = token;
-            },
-            (error) => {
-                console.log(error);
-                this.authToken = null;
-            }
-        );
     }
   
     fetchProducts() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        if(!this.authToken) {
+        if(!this.userService.getToken()) {
             console.log("no authToken");
         }
-        headers.append('Authorization', "Basic "+ window.btoa(this.authToken+":")); 
+        headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         console.log("this:"+JSON.stringify(this));
         return this.http
           .get('/rest/products', { headers })

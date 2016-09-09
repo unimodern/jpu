@@ -7,7 +7,6 @@ import {SettingsPage} from '../settings/settings';
 
 @Component({
   templateUrl: 'build/pages/products/products.html',
-  providers: [ProductService, UserService]
 })
 export class ProductsPage {
   private products : any;
@@ -16,17 +15,15 @@ export class ProductsPage {
     private navCtrl: NavController,
     private userService: UserService
     ) {
-      this.userService.loadToken().then(token => {
-        if(!token) {
-          console.log("!isLoggedIn:"+token);
-          this.navCtrl.push(SettingsPage);
+        if(!this.userService.isLoggedIn()) {
+          console.log("!isLoggedIn");
+          this.navCtrl.setRoot(SettingsPage);
         }
-      });
-      this.productService.loadProducts().then(
-      res => {
-        console.log("products loaded:" +JSON.stringify(res));
-        this.products=res;
-      });
+        this.productService.loadProducts().then(
+        resp => {
+          console.log("products loaded:" +JSON.stringify(resp));
+          this.products=resp;
+        });
   }
   
   getProducts(refresher){

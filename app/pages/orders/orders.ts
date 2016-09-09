@@ -1,32 +1,41 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {OrderService} from '../../services/orderservice';
+import {ProductService} from '../../services/productservice';
 import {UserService} from '../../services/userservice';
 import {OrderPage} from '../order/order';
-import {SettingsPage} from '../settings/settings';
+import {LoginPage} from '../login/login';
 
 @Component({
   templateUrl: 'build/pages/orders/orders.html',
-  providers: [OrderService, UserService]
-})
+}) 
 export class OrdersPage {
   private orders : any;
   constructor( 
+    private productService: ProductService, 
     private orderService: OrderService, 
     private navCtrl: NavController,
     private userService: UserService
     ) {
-      this.userService.loadToken().then(token => {
-        if(!token) {
-          console.log("!isLoggedIn:"+token);
-          this.navCtrl.push(SettingsPage);
-        }
-      });
-      this.orderService.loadOrders().then(
-      res => {
-        console.log("orders loaded:" +JSON.stringify(res));
-        this.orders=res;
-      });
+      this.userService.isLoggedIn().then((res)=>{
+        console.log("orders: " + res)
+        if(!res) {
+            navCtrl.setRoot(LoginPage);
+          }
+        });
+      if(this.orderService.isFetched()) {
+        this.orderService.loadOrders().then(
+        res => {
+          console.log("orders loaded:" +JSON.stringify(res));
+          this.orders=res;
+        });
+      } else {
+        this.orderService.fetchOrders().subscribe(
+        (res) => {
+          console.log("orders fetched:" +JSON.stringify(res));
+          this.orders=res;
+        });
+      }
   }
   
   getOrders(refresher){

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {OrdersPage} from '../orders/orders';
 import {ProductsPage} from '../products/products';
 import {OrderPage} from '../order/order';
+import {LoginPage} from '../login/login';
 import {SettingsPage} from '../settings/settings';
 import {ContactPage} from '../contact/contact';
 
@@ -21,4 +22,5 @@ export class TabsPage {
     this.tab2Root = ProductsPage;
     this.tab3Root = SettingsPage;
   }
+
 }

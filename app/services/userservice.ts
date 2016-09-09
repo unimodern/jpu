@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Storage, LocalStorage, SqlStorage } from 'ionic-angular';
+import { Storage, SqlStorage } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 
 @Injectable()
 export class UserService {
-  private loggedIn = false;
+  private loggedIn : boolean;
   private storage = null;
   private authToken = null;
   private api_url = "/api/" 
 
   constructor(private http: Http) {
     this.storage = new Storage(SqlStorage);
-    //this.storage.query("CREATE TABLE IF NOT EXISTS token (id INTEGER PRIMARY KEY AUTOINCREMENT, token TEXT)");
-    //this.loggedIn = !!localStorage.getItem('auth_token');
-    
   }
   
   loadToken(){
@@ -47,24 +44,60 @@ export class UserService {
       )
       .map(res => res.json())
       .map((res) => {
+        console.log("login in userservice: " + JSON.stringify(res));
         if (res.success) {
           //this.storage.set('auth_token', res.token);
           //this.storage.query("INSERT INTO token (token) VALUES (?)", [res.token]);
           this.storage.set("auth_token", res.token);
+          this.authToken = res.token;
           this.loggedIn = true;
-        } 
+        } else {
+          console.log('login failed ' + JSON.stringify(res));
+          this.authToken = null;
+          this.loggedIn = false;
+        }
 
-        return res.success;
+        return res;
       });
   }
   
   logout() {
-    this.storage.remove('auth_token');
-    this.loggedIn = false;
+    return this.storage.remove('auth_token').then(
+          (res) => {
+              console.log("auth_token removal success: ("+JSON.stringify(res)+")");
+              return this.storage.query("DROP TABLE IF EXISTS app_order").then(
+                (res) => {
+                    console.log("Table app_order drop success: ("+JSON.stringify(res)+")");
+                    return this.storage.query("DROP TABLE IF EXISTS app_product").then(
+                      (res) => {
+                          console.log("Table app_product drop success: ("+JSON.stringify(res)+")");
+                          console.log("Cleaned order service");
+                          this.loggedIn = false;
+                          return this.loggedIn;
+                      },
+                      (error) => {
+                          console.log("Table app_product drop fail: ("+JSON.stringify(error)+")");
+                    });
+                },
+                (error) => {
+                    console.log("Table app_order drop fail: ("+JSON.stringify(error)+")");
+              });
+          },
+          (error) => {
+              console.log("auth_token removal fail: ("+JSON.stringify(error)+")");
+          });
   }
 
   isLoggedIn() {
-    console.log(this.loggedIn ? 'not logged in':'logged in');
-    return this.loggedIn;
+    return this.storage.get('auth_token').then((res) => {
+        console.log('userService constructor: ' + res);
+        this.authToken = res;
+        this.loggedIn = !!res;
+        return this.loggedIn;
+      });
   }
+  getToken(){
+    return this.authToken;
+  }
+  
 }

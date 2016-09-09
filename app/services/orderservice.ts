@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Storage, SqlStorage } from 'ionic-angular';
+import {ProductService} from './productservice';
+import {UserService} from './userservice';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
@@ -10,9 +12,11 @@ export class OrderService {
     private storage :Storage;
     private orders :any;
     private order :any;
-    private authToken = null;
+    private fetched = false;
 
-    constructor(private http:Http) {
+    constructor(private http:Http, private productService: ProductService, private userService: UserService) {
+        console.log("Order service constructor, userService: " + JSON.stringify(this.userService));
+        
         this.storage = new Storage(SqlStorage);
         this.storage.query("CREATE TABLE IF NOT EXISTS app_order (" +
             "id INTEGER UNIQUE, " +
@@ -46,25 +50,14 @@ export class OrderService {
             (error) => {
                 console.log("Create order table fail: ("+JSON.stringify(error)+")");
             });
-        this.storage.get("auth_token").then(
-            (token) => {
-                console.log(token);
-                this.authToken = token;
-            },
-            (error) => {
-                console.log(error);
-                this.authToken = null;
-            }
-        );
     }
   
     fetchOrders() {
+        console.log("Order service fetchOrders, userService: " + JSON.stringify(this.userService));
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        if(!this.authToken) {
-            console.log("no authToken");
-        }
-        headers.append('Authorization', "Basic "+ window.btoa(this.authToken+":")); 
+        console.log("Authorization:" + this.userService.getToken());
+        headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         console.log("this:"+JSON.stringify(this));
         return this.http
           .get('/rest/orders', { headers })
@@ -115,28 +108,29 @@ export class OrderService {
                             }
                         );
                 }
-                this.storage.query('select * from app_order').then(
-                    (orders) => {
-                        console.log("Got orders: ("+JSON.stringify(orders)+")");
-                    },
-                    (error) => {
-                        console.log("Orders fetch error" + JSON.stringify(error));
-                    }
-                );
                 console.log("OrderService.fetchOrders done");
+                this.fetched = true;
                 return res.orders;
               },
             err => {
               console.log("http fail!");
-              this.storage.get("orders").then((value) => {
-                this.orders = JSON.parse(value);
-              });
+              this.fetched = false;
             } 
         );
     }
   
-    loadOrders() {
+/*    loadOrders() {
         console.log("Getting orders: (select * from app_order)");
+        if(!this.fetched)
+            return this.fetchOrders().subscribe(res => {
+                return this.loadAllOrders();
+            });
+        return Observable.create(observer => {
+            this.loadAllOrders();
+            observer.complete();
+        });
+    }*/
+    loadOrders() {
         return this.storage.query('SELECT * FROM app_order').then(
             (resp) => {
                 let orders = [];
@@ -199,5 +193,17 @@ export class OrderService {
             }
         );
         
+    }
+    
+    isFetched() {
+      console.log(this.fetched ? 'fetched':'not fetched');
+      return this.fetched;
+    }
+    
+    clean() {
+        this.orders = null;
+        this.order = null;
+        this.fetched = false;
+        return;
     }
 }

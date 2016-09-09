@@ -1,11 +1,20 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
 <ion-header>
+
   <ion-navbar>
-    <ion-title>Settings</ion-title>
+    <ion-title>login</ion-title>
   </ion-navbar>
+
 </ion-header>
 
-<ion-content padding class="settings">
-  <ion-list *ngIf="!loggedIn">
+
+<ion-content padding>
+  <ion-list>
    
     <ion-item>
       <ion-label floating>Username</ion-label>
@@ -19,5 +28,6 @@
    
   <button (click)="login(username, password)">Login</button>
   </ion-list>
-  <button (click)="logout()"  *ngIf="loggedIn">Logout</button>
+  <p>{{message}}</p>
+
 </ion-content>

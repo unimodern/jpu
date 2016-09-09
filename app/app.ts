@@ -1,18 +1,22 @@
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
-import {TabsPage} from './pages/tabs/tabs';
+import {DispatchPage} from './pages/dispatch/dispatch';
+import {UserService} from './services/userservice';
+import {OrderService} from './services/orderservice';
+import {ProductService} from './services/productservice';
 
 
 @Component({
-  template: '<ion-nav [root]="rootPage"></ion-nav>'
+  template: '<ion-nav [root]="rootPage"></ion-nav>',
+  providers: [UserService, OrderService, ProductService]
 })
-export class MyApp {
+export class App {
 
   private rootPage: any;
 
   constructor(private platform: Platform) {
-    this.rootPage = TabsPage;
+    this.rootPage = DispatchPage;
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -22,4 +26,4 @@ export class MyApp {
   }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(App, [UserService, OrderService, ProductService]);
