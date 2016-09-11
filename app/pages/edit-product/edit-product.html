@@ -13,7 +13,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="edit-product">
   <ion-list>
   
     <ion-item>
@@ -32,9 +32,14 @@
     </ion-item>
   
   </ion-list>
-  <button (click)="saveProduct()">Save</button>
   <button (click)="takePicture()">Take a Picture</button>
+  <div *ngIf="base64Image">
+    <img width="64" height="48" [src]="base64Img" *ngFor="let base64Img of base64Image"/>
+  </div>
+  <div >
+    <img width="64" height="48" src="//jpweb-unimodern.c9users.io/attachments/file/download?id={{thumb.id}}" *ngFor="let thumb of product.thumbs">
+  </div>
+  <hr>
+  <button (click)="saveProduct()">Save</button>
 
-  Latest Picture:
-  <img [src]="base64Image" *ngIf="base64Image" />
 </ion-content>

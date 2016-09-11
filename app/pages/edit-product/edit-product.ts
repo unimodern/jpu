@@ -16,7 +16,7 @@ import {ProductPage} from '../product/product';
 })
 export class EditProductPage {
   private product: any;
-  public base64Image: string;
+  public base64Image: string[];
   constructor(
       private productService: ProductService, 
       private navCtrl: NavController,
@@ -33,7 +33,7 @@ export class EditProductPage {
         targetWidth: 640,
         targetHeight: 480
     }).then((imageData) => {
-        this.base64Image = "data:image/jpeg;base64," + imageData;
+        this.base64Image.push("data:image/jpeg;base64," + imageData);
     }, (err) => {
         console.log(err);
     });
