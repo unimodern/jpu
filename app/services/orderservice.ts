@@ -18,12 +18,12 @@ export class OrderService {
     }
   
     fetchOrders() {
-        console.log("Order service fetchOrders, userService: " + JSON.stringify(this.userService));
+        //console.log("Order service fetchOrders, userService: " + JSON.stringify(this.userService));
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         console.log("Authorization:" + this.userService.getToken());
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
-        console.log("this:"+JSON.stringify(this));
+        //console.log("this:"+JSON.stringify(this));
         return this.http
           .get(this.userService.api_url + 'rest/orders', { headers })
           .map(res => res.json())
@@ -44,7 +44,7 @@ export class OrderService {
         console.log("Getting order2: id="+order_id);
         for(var k = 0; k < this.orders.length; k++)
             if (this.orders[k].id == order_id) {
-                console.log("order: " +k+ "|" + JSON.stringify(this.orders[k]));
+                //console.log("order: " +k+ "|" + JSON.stringify(this.orders[k]));
                 return {order:this.orders[k]};
             }
         return {order:null};

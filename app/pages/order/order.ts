@@ -10,7 +10,7 @@ export class OrderPage {
   private orderProducts : any;
   constructor(private orderService: OrderService, private navCtrl: NavController, private navParams: NavParams) {
     this.order = navParams.get('order');
-    console.log("OrderPage params: " + JSON.stringify({order:this.order, orderProducts:this.orderProducts}));
+    //console.log("OrderPage params: " + JSON.stringify({order:this.order, orderProducts:this.orderProducts}));
   }
   
 

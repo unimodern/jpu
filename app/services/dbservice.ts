@@ -27,7 +27,7 @@ export class DbService {
         headers.append('Content-Type', 'application/json');
         console.log("Authorization:" + this.userService.getToken());
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
-        console.log("this:"+JSON.stringify(this));
+        //console.log("this:"+JSON.stringify(this));
         return this.http
           .get(this.userService.api_url + 'rest/orders-products', { headers })
           .map(res => res.json())

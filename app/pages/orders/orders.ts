@@ -27,17 +27,17 @@ export class OrdersPage {
   }
   
   getOrders(refresher){
-    console.log(JSON.stringify(this.orders));
+    //console.log(JSON.stringify(this.orders));
     console.log("OrdersPage getOrders started");
     this.orderService.fetchOrders().subscribe(
           res => {
-            console.log(JSON.stringify(res));
+            //console.log(JSON.stringify(res));
             this.orders = res;
             console.log("OrdersPage getOrders ended");
             refresher.complete();
           }
       );
-    console.log(JSON.stringify(this.orders));
+    //console.log(JSON.stringify(this.orders));
   }
   
   itemSelected(order_id) { 

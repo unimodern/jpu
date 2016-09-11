@@ -26,7 +26,7 @@ export class ProductService {
             console.log("no authToken");
         }
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
-        console.log("this:"+JSON.stringify(this));
+        //console.log("this:"+JSON.stringify(this));
         return this.http
           .get(this.userService.api_url + 'rest/products', { headers })
           .map(res => res.json())
@@ -38,7 +38,7 @@ export class ProductService {
                 return this.products;
               },
             err => {
-              console.log("http fail!"+JSON.stringify(err));
+              //console.log("http fail!"+JSON.stringify(err));
             } 
         );
     }
@@ -47,7 +47,7 @@ export class ProductService {
         console.log("getProduct: "+product_id);
         for(var i = 0; i < this.products.length; i++)
             if(this.products[i].id == product_id) {
-                console.log("getProduct returns: "+JSON.stringify(this.products[i]));
+                //console.log("getProduct returns: "+JSON.stringify(this.products[i]));
                 return {product: this.products[i]};
             }
         console.log("getProduct not found: "+this.products.length + "|" + i);
@@ -76,7 +76,7 @@ export class ProductService {
         headers.append('Content-Type', 'application/json');
         console.log("Authorization:" + this.userService.getToken());
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
-        console.log("this:"+JSON.stringify(this));
+        //console.log("this:"+JSON.stringify(this));
         return this.http
           .get(this.userService.api_url + 'rest/change-product-status?id='+product_id+'&status='+status, { headers })
           .map(res => res.json())

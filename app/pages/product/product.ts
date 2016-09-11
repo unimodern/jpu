@@ -27,7 +27,7 @@ export class ProductPage {
       public actionSheetCtrl: ActionSheetController,
       public loadingCtrl: LoadingController
     ) {
-    console.log("ProductPage rec: " + JSON.stringify(navParams.get('product')))
+    //console.log("ProductPage rec: " + JSON.stringify(navParams.get('product')))
     this.product = navParams.get('product');
     this._status = productService._status;
   }

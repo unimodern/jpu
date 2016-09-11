@@ -44,7 +44,7 @@ export class UserService {
       )
       .map(res => res.json())
       .map((res) => {
-        console.log("login in userservice: " + JSON.stringify(res));
+        //console.log("login in userservice: " + JSON.stringify(res));
         if (res.success) {
           //this.storage.set('auth_token', res.token);
           //this.storage.query("INSERT INTO token (token) VALUES (?)", [res.token]);
@@ -52,7 +52,7 @@ export class UserService {
           this.authToken = res.token;
           this.loggedIn = true;
         } else {
-          console.log('login failed ' + JSON.stringify(res));
+          //console.log('login failed ' + JSON.stringify(res));
           this.authToken = null;
           this.loggedIn = false;
         }
@@ -64,12 +64,12 @@ export class UserService {
   logout() {
     return this.storage.remove('auth_token').then(
           (res) => {
-              console.log("auth_token removal success: ("+JSON.stringify(res)+")");
+              //console.log("auth_token removal success: ("+JSON.stringify(res)+")");
               this.loggedIn = false;
               return this.loggedIn;
           },
           (error) => {
-              console.log("auth_token removal fail: ("+JSON.stringify(error)+")");
+              //console.log("auth_token removal fail: ("+JSON.stringify(error)+")");
           });
   }
 

@@ -23,17 +23,17 @@ export class ProductsPage {
   }
   
   getProducts(refresher){
-    console.log(JSON.stringify(this.products));
+    //console.log(JSON.stringify(this.products));
     console.log("ProductsPage getProducts started");
     this.productService.fetchProducts().subscribe(
           res => {
-            console.log(JSON.stringify(res));
+            //console.log(JSON.stringify(res));
             this.products = res;
             console.log("ProductsPage getProducts ended");
             refresher.complete();
           }
       );
-    console.log(JSON.stringify(this.products));
+    //console.log(JSON.stringify(this.products));
   }
   
   itemSelected(product_id) { 
