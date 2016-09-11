@@ -39,7 +39,7 @@
     <ion-col width-65>
       <ion-slides [options]="mySlideOptions">
         <ion-slide *ngFor="let thumb of product.thumbs">
-          <img src="//jpweb-unimodern.c9users.io/attachments/file/download?id={{thumb.id}}" >
+          <img [src]="//jpweb-unimodern.c9users.io/attachments/file/download?id={{thumb.id}}" >
         </ion-slide>
       </ion-slides>
     </ion-col>

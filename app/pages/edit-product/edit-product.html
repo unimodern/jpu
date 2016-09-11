@@ -37,7 +37,7 @@
     <img width="64" height="48" [src]="base64Img" *ngFor="let base64Img of base64Image"/>
   </div>
   <div >
-    <img width="64" height="48" src="//jpweb-unimodern.c9users.io/attachments/file/download?id={{thumb.id}}" *ngFor="let thumb of product.thumbs">
+    <img width="64" height="48" [src]="//jpweb-unimodern.c9users.io/attachments/file/download?id={{thumb.id}}" *ngFor="let thumb of product.thumbs">
   </div>
   <hr>
   <button (click)="saveProduct()">Save</button>

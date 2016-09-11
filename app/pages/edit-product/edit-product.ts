@@ -16,14 +16,14 @@ import {ProductPage} from '../product/product';
 })
 export class EditProductPage {
   private product: any;
-  public base64Image: string[];
+  public base64Image: Array<string> = [];
   constructor(
       private productService: ProductService, 
       private navCtrl: NavController,
       private navParams: NavParams,
       public loadingCtrl: LoadingController
     ) {
-    console.log("ProductPage rec: " + JSON.stringify(navParams.get('product')))
+    //console.log("ProductPage rec: " + JSON.stringify(navParams.get('product')))
     this.product = navParams.get('product');
   }
   
@@ -31,7 +31,8 @@ export class EditProductPage {
     Camera.getPicture({
         destinationType: Camera.DestinationType.DATA_URL,
         targetWidth: 640,
-        targetHeight: 480
+        targetHeight: 480,
+        correctOrientation: true
     }).then((imageData) => {
         this.base64Image.push("data:image/jpeg;base64," + imageData);
     }, (err) => {
