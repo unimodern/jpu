@@ -18,27 +18,47 @@
   
     <ion-item>
       <ion-label floating>Name</ion-label>
-      <ion-input type="text" value="{{product.name}}"></ion-input>
+      <ion-input type="text" [(ngModel)]="product.name"></ion-input>
     </ion-item>
   
     <ion-item>
       <ion-label floating>Normal Price (cents)</ion-label>
-      <ion-input type="tell" value="{{product.normal_price}}"></ion-input>
+      <ion-input type="tell" [(ngModel)]="product.normal_price"></ion-input>
     </ion-item>
   
     <ion-item>
       <ion-label floating>Sale Price (cents)</ion-label>
-      <ion-input type="tell" value="{{product.sale_price}}"></ion-input>
+      <ion-input type="tell" [(ngModel)]="product.sale_price"></ion-input>
     </ion-item>
   
   </ion-list>
   <button (click)="takePicture()">Take a Picture</button>
+  
   <div *ngIf="base64Image">
-    <img width="64" height="48" [src]="base64Img" *ngFor="let base64Img of base64Image"/>
+    <ion-card *ngFor="let base64Img of base64Image">
+      <img [src]="base64Img"/>
+      <ion-row no-padding>
+        <ion-col>
+          <button clear small danger (click)="removeBaseImage(base64Img)">
+            <ion-icon name='trash'></ion-icon>
+            Delete
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
   </div>
-  <div >
-    <img width="64" height="48" src="https://jpweb-unimodern.c9users.io/attachments/file/download?id={{thumb.id}}" *ngFor="let thumb of product.thumbs">
-  </div>
+  <ion-card *ngFor="let thumb of product.thumbs">
+    <img src="https://jpweb-unimodern.c9users.io/attachments/file/download?id={{thumb.id}}"/>
+    <ion-row no-padding>
+      <ion-col>
+        <button clear small danger (click)="removeImage(thumb)">
+          <ion-icon name='trash'></ion-icon>
+          Delete
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
   <hr>
   <button (click)="saveProduct()">Save</button>
 

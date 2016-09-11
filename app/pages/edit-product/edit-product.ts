@@ -42,12 +42,22 @@ export class EditProductPage {
   saveProduct(){
     console.log('saveProduct initiated');
     this.presentLoading();
-    this.productService.saveProduct(this.product).subscribe((resp)=>{
-      return this.navCtrl.pop().then((resp) => {
-          this.navCtrl.push(ProductPage, this.productService.getProduct(this.product.id))
+    this.productService.saveProduct(this.product, this.base64Image).subscribe((resp)=>{
+      return this.navCtrl.pop().then((resp1) => {
+        return this.navCtrl.pop().then((resp2) => {
+            this.navCtrl.push(ProductPage, this.productService.getProduct(this.product.id))
+          });
         });
     });
     
+  }
+  removeImage(thumb) {
+    let index = this.product.thumbs.indexOf(thumb);
+    this.product.thumbs.splice(index,1);
+  }
+  removeBaseImage(baseImg) {
+    let index = this.base64Image.indexOf(baseImg);
+    this.base64Image.splice(index,1);
   }
   presentLoading() {
     let loader = this.loadingCtrl.create({
