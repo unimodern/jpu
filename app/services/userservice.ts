@@ -10,7 +10,7 @@ export class UserService {
   private loggedIn : boolean;
   private storage = null;
   private authToken = null;
-  private api_url = "/api/" 
+  public api_url = false ? "https://jpweb-unimodern.c9users.io/":"/";
 
   constructor(private http: Http) {
     this.storage = new Storage(SqlStorage);

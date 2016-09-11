@@ -5,7 +5,7 @@
   "typescript": true,
   "proxies": [
     {
-      "path": "/rest/login",
+      "path": "/api/rest/login",
       "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/login"
     },
     {

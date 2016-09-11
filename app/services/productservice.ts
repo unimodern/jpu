@@ -28,7 +28,7 @@ export class ProductService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         console.log("this:"+JSON.stringify(this));
         return this.http
-          .get('/rest/products', { headers })
+          .get(this.userService.api_url + 'rest/products', { headers })
           .map(res => res.json())
           .map(res => {
                 console.log("res:"+res.products);
@@ -78,7 +78,7 @@ export class ProductService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         console.log("this:"+JSON.stringify(this));
         return this.http
-          .get('/rest/change-product-status?id='+product_id+'&status='+status, { headers })
+          .get(this.userService.api_url + 'rest/change-product-status?id='+product_id+'&status='+status, { headers })
           .map(res => res.json())
           .map(res => {
                 this.products = res.products;
@@ -100,7 +100,7 @@ export class ProductService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         headers.append('Product', JSON.stringify(product)); 
         return this.http
-          .get('/rest/save-product', { headers,  })
+          .get(this.userService.api_url + 'rest/save-product', { headers,  })
           .map(res => res.json())
           .map(res => {
                 this.products = res.products;

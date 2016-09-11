@@ -29,7 +29,7 @@ export class DbService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         console.log("this:"+JSON.stringify(this));
         return this.http
-          .get('/rest/orders-products', { headers })
+          .get(this.userService.api_url + 'rest/orders-products', { headers })
           .map(res => res.json())
           .map(res => {
                 console.log("res:"+res.orders);
