@@ -93,15 +93,14 @@ export class ProductService {
         );
     }
     
-    saveProduct(product, base64Image) {
+    saveProduct(product) {
         console.log("Saving product: " + product.id);
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         headers.append('Product', JSON.stringify(product)); 
-        headers.append('Images', JSON.stringify(base64Image)); 
         return this.http
-          .get(this.userService.api_url + 'rest/save-product', { headers,  })
+          .get(this.userService.api_url + 'rest/save-product', { headers })
           .map(res => res.json())
           .map(res => {
                 this.products = res.products;
