@@ -15,15 +15,11 @@ export class ProductsPage {
     private navCtrl: NavController,
     private userService: UserService
     ) {
-        if(!this.userService.isLoggedIn()) {
-          console.log("!isLoggedIn");
-          this.navCtrl.setRoot(SettingsPage);
-        }
-        this.productService.loadProducts().then(
-        resp => {
-          console.log("products loaded:" +JSON.stringify(resp));
-          this.products=resp;
-        });
+    if(!this.userService.isLoggedIn()) {
+      console.log("!isLoggedIn");
+      this.navCtrl.setRoot(SettingsPage);
+    }
+    this.products = this.productService.getProducts();
   }
   
   getProducts(refresher){
@@ -42,12 +38,6 @@ export class ProductsPage {
   
   itemSelected(product_id) { 
     console.log("Heading ProductPage: "+product_id);
-    this.productService.getProduct(product_id).then(
-      res => {
-        console.log(JSON.stringify(res));
-        this.navCtrl.push(ProductPage, {
-          product: res
-        });
-      });
+    this.navCtrl.push(ProductPage, this.productService.getProduct(product_id));
   }
 }

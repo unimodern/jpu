@@ -65,23 +65,8 @@ export class UserService {
     return this.storage.remove('auth_token').then(
           (res) => {
               console.log("auth_token removal success: ("+JSON.stringify(res)+")");
-              return this.storage.query("DROP TABLE IF EXISTS app_order").then(
-                (res) => {
-                    console.log("Table app_order drop success: ("+JSON.stringify(res)+")");
-                    return this.storage.query("DROP TABLE IF EXISTS app_product").then(
-                      (res) => {
-                          console.log("Table app_product drop success: ("+JSON.stringify(res)+")");
-                          console.log("Cleaned order service");
-                          this.loggedIn = false;
-                          return this.loggedIn;
-                      },
-                      (error) => {
-                          console.log("Table app_product drop fail: ("+JSON.stringify(error)+")");
-                    });
-                },
-                (error) => {
-                    console.log("Table app_order drop fail: ("+JSON.stringify(error)+")");
-              });
+              this.loggedIn = false;
+              return this.loggedIn;
           },
           (error) => {
               console.log("auth_token removal fail: ("+JSON.stringify(error)+")");

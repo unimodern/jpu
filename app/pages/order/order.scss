@@ -1,10 +1,11 @@
 .order {
-    @media (max-width: 567px)
-        .reverse[responsive-sm] {
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -webkit-flex-direction: column-reverse;
-            -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse;
-        }
+}
+@media (max-width: 567px) {
+    .order .reverse[responsive-sm] {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column-reverse;
+        -ms-flex-direction: column-reverse;
+        flex-direction: column-reverse;
+    }
 }

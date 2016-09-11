@@ -3,6 +3,7 @@ import { NavController, App } from 'ionic-angular';
 import {TabsPage} from '../tabs/tabs';
 import {LoginPage} from '../login/login';
 import {UserService} from '../../services/userservice';
+import {DbService} from '../../services/dbservice';
 //import {App} from '../../app';
 
 /*
@@ -13,16 +14,18 @@ import {UserService} from '../../services/userservice';
 */
 @Component({
   templateUrl: 'build/pages/dispatch/dispatch.html',
+  providers: [DbService]
 })
 export class DispatchPage {
 
-  constructor(private userService: UserService, private navCtrl: NavController, public app: App) {
+  constructor(private userService: UserService, private navCtrl: NavController, public app: App, private dbService: DbService) {
     this.userService.isLoggedIn().then((res)=>{
     console.log("dispatch constructor: " + res)
     if(res){
-        navCtrl.setRoot(TabsPage);
+        this.dbService.fetchAll().subscribe((resp) => {
+          navCtrl.setRoot(TabsPage);
+        });
       } else {
-        //this.app.getActiveNav().push(LoginPage);
         let nav = this.app.getRootNav()
         nav.setRoot(LoginPage);        
       }

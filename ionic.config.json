@@ -1,6 +1,6 @@
 {
   "name": "jpAdmin",
-  "app_id": "",
+  "app_id": "d102280c",
   "v2": true,
   "typescript": true,
   "proxies": [
@@ -11,6 +11,22 @@
     {
       "path": "/rest/orders",
       "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/orders"
+    },
+    {
+      "path": "/rest/orders-products",
+      "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/orders-products"
+    },
+    {
+      "path": "/rest/change-product-status",
+      "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/change-product-status"
+    },
+    {
+      "path": "/rest/change-order-status",
+      "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/change-order-status"
+    },
+    {
+      "path": "/rest/save-product",
+      "proxyUrl": "https://jpweb-unimodern.c9users.io/rest/save-product"
     },
     {
       "path": "/rest/products",

@@ -23,19 +23,7 @@ export class OrdersPage {
             navCtrl.setRoot(LoginPage);
           }
         });
-      if(this.orderService.isFetched()) {
-        this.orderService.loadOrders().then(
-        res => {
-          console.log("orders loaded:" +JSON.stringify(res));
-          this.orders=res;
-        });
-      } else {
-        this.orderService.fetchOrders().subscribe(
-        (res) => {
-          console.log("orders fetched:" +JSON.stringify(res));
-          this.orders=res;
-        });
-      }
+        this.orders = this.orderService.getOrders();
   }
   
   getOrders(refresher){
@@ -54,13 +42,6 @@ export class OrdersPage {
   
   itemSelected(order_id) { 
     console.log("Heading OrderPage: "+order_id);
-    this.orderService.getOrder(order_id).then(
-      res => {
-        console.log("itemSelected:" + JSON.stringify(res));
-        this.navCtrl.push(OrderPage, {
-          order: res.order,
-          orderProducts: res.orderProducts
-        });
-      });
+    this.navCtrl.push(OrderPage, this.orderService.getOrder(order_id));
   }
 }

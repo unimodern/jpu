@@ -33,8 +33,8 @@ export class LoginPage {
           subTitle: result.message,
           buttons: ['OK']
         });
-      alert.present();
-    }
+        alert.present();
+      }
     });
   }
 

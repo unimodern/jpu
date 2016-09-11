@@ -19,7 +19,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-item *ngFor="let product of products">
+    <ion-item *ngFor="let product of products" (click)="itemSelected(product.id)">
       {{product.name}}
     </ion-item>
   </ion-list>

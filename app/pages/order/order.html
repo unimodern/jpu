@@ -13,7 +13,7 @@
       <p>{{order.email}}</p>
     </ion-col>
     <ion-col width-50>
-      <div *ngFor="let orderProduct of orderProducts; let i = index">
+      <div *ngFor="let orderProduct of order.orderProducts; let i = index">
         <h3>
           {{i+1}}. {{orderProduct.product.name}}
         </h3>
