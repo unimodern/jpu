@@ -128,7 +128,8 @@ export class ProductService {
             mimeType: 'image/jpeg',
             chunkedMode: false,
             headers: {
-                'Content-Type' : undefined
+                'Content-Type': 'application/json',
+                'Authorization': "Basic "+ window.btoa(this.userService.getToken()+":")
             },
             params: {
                 fileName: filename,
