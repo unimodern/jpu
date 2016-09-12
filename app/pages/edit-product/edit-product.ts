@@ -42,8 +42,7 @@ export class EditProductPage {
   saveProduct(){
     console.log('saveProduct initiated');
     this.presentLoading();
-    this.product.base64Image = this.base64Image;
-    this.productService.saveProduct(this.product).subscribe((resp)=>{
+    this.productService.saveProduct(this.product, this.base64Image).subscribe((resp)=>{
       return this.navCtrl.pop().then((resp1) => {
         return this.navCtrl.pop().then((resp2) => {
             this.navCtrl.push(ProductPage, this.productService.getProduct(this.product.id))

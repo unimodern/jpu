@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {UserService} from './userservice';
+import {Transfer} from 'ionic-native';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -93,11 +94,14 @@ export class ProductService {
         );
     }
     
-    saveProduct(product) {
+    saveProduct(product, base64Image) {
         console.log("Saving product: " + product.id);
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
+        base64Image.forEach((image) => {
+            this.upload(image, product.id);
+        });
         headers.append('Product', JSON.stringify(product)); 
         return this.http
           .get(this.userService.api_url + 'rest/save-product', { headers })
@@ -113,6 +117,30 @@ export class ProductService {
               this.fetched = false;
             } 
         );
+    }
+    
+    upload = (image: string, id) : void => { 
+        let ft = new Transfer();
+        let filename =  "1.jpg";
+        let options = {
+            fileKey: 'file',
+            fileName: filename,
+            mimeType: 'image/jpeg',
+            chunkedMode: false,
+            headers: {
+                'Content-Type' : undefined
+            },
+            params: {
+                fileName: filename
+            }
+        }; 
+        ft.upload(image, this.userService.api_url + 'rest/upload-image', options, false)
+        .then((result: any) => {
+            //this.success(result);
+            console.log("Upload success");
+        }).catch((error: any) => {
+            console.log("Upload failed");
+        }); 
     }
     
     
