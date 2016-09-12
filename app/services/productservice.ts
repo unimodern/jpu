@@ -120,6 +120,10 @@ export class ProductService {
     }
     uploadImage(product_id, base64Img) {
         console.log("Uploading image for product: " + product_id);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        console.log("Authorization:" + this.userService.getToken());
+        headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":"));         
         let ft = new Transfer();
         let filename =  "1.jpg";
         let options = {
@@ -127,10 +131,7 @@ export class ProductService {
             fileName: filename,
             mimeType: 'image/jpeg',
             chunkedMode: false,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': "Basic "+ window.btoa(this.userService.getToken()+":")
-            },
+            headers: headers,
             params: {
                 fileName: filename,
                 product_id: product_id
