@@ -59,6 +59,11 @@ export class EditProductPage {
     let index = this.base64Image.indexOf(baseImg);
     this.base64Image.splice(index,1);
   }
+  uploadBaseImage(baseImg) {
+    this.productService.uploadImage(this.product.id, baseImg).then((resp)=>{
+      return true;
+    });
+  }
   presentLoading() {
     let loader = this.loadingCtrl.create({
       content: "Please wait...",

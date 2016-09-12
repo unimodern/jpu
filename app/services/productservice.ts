@@ -61,7 +61,7 @@ export class ProductService {
     setProducts(products) {
       console.log("setting products: " + products);
       this.products = products;
-    }
+    } 
 
     isFetched(){
         console.log("productService isFetched"+this.fetched);
@@ -99,10 +99,10 @@ export class ProductService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
-        base64Image.forEach((image) => {
+/*        base64Image.forEach((image) => {
             this.upload(image, product.id);
         });
-        headers.append('Product', JSON.stringify(product)); 
+*/        headers.append('Product', JSON.stringify(product)); 
         return this.http
           .get(this.userService.api_url + 'rest/save-product', { headers })
           .map(res => res.json())
@@ -118,8 +118,8 @@ export class ProductService {
             } 
         );
     }
-    
-    upload = (image: string, id) : void => { 
+    uploadImage(product_id, base64Img) {
+        console.log("Uploading image for product: " + product_id);
         let ft = new Transfer();
         let filename =  "1.jpg";
         let options = {
@@ -131,10 +131,38 @@ export class ProductService {
                 'Content-Type' : undefined
             },
             params: {
-                fileName: filename
+                fileName: filename,
+                product_id: product_id
             }
         }; 
-        ft.upload(image, this.userService.api_url + 'rest/upload-image', options, false)
+        return ft.upload(base64Img, this.userService.api_url + 'rest/upload-image', options, false)
+        .then((result: any) => {
+            //this.success(result);
+            console.log("Upload success");
+            return true;
+        }).catch((error: any) => {
+            console.log("Upload failed");
+            return false;
+        }); 
+    }
+    
+/*    upload = (image: string, product_id) : resp => { 
+        let ft = new Transfer();
+        let filename =  "1.jpg";
+        let options = {
+            fileKey: 'file',
+            fileName: filename,
+            mimeType: 'image/jpeg',
+            chunkedMode: false,
+            headers: {
+                'Content-Type' : undefined
+            },
+            params: {
+                fileName: filename,
+                product_id: product_id
+            }
+        }; 
+        return ft.upload(image, this.userService.api_url + 'rest/upload-image', options, false)
         .then((result: any) => {
             //this.success(result);
             console.log("Upload success");
@@ -142,6 +170,6 @@ export class ProductService {
             console.log("Upload failed");
         }); 
     }
-    
+*/    
     
 }
