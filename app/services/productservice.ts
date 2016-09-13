@@ -121,31 +121,54 @@ export class ProductService {
     uploadImage(product_id, base64Img) {
         console.log("Uploading image for product: " + product_id + "|" + base64Img);
         let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        console.log("Authorization:" + this.userService.getToken());
-        headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":"));         
-        let ft = new Transfer();
-        let filename =  "1.jpg";
-        let options = {
-            fileKey: 'file',
-            fileName: filename,
-            mimeType: 'image/jpeg',
-            chunkedMode: false,
-            headers: headers,
-            params: {
-                fileName: filename,
-                product_id: product_id
-            }
-        }; 
-        return ft.upload(base64Img, this.userService.api_url + 'rest/upload-image', options, false)
-        .then((result: any) => {
-            //this.success(result);
-            console.log("Upload success");
-            return true;
-        }).catch((error: any) => {
-            console.log("Upload failed");
-            return false;
-        }); 
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
+/*        base64Image.forEach((image) => {
+            this.upload(image, product.id);
+        });*/
+        headers.append('product_id', product_id); 
+        headers.append('base64Img', base64Img); 
+        return this.http
+          .get(this.userService.api_url + 'rest/upload-image', { headers })
+          .map(res => res.json())
+          .map(res => {
+                this.products = res.products;
+                console.log("ProductService.upload-image done");
+                this.fetched = true;
+                return this.products;
+              },
+            err => {
+              console.log("http fail!");
+              this.fetched = false;
+            } 
+        );
+        
+        // let headers = new Headers();
+        // headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        // console.log("Authorization:" + this.userService.getToken());
+        // headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":"));         
+        // let ft = new Transfer();
+        // let filename =  "1.jpg";
+        // let options = {
+        //     fileKey: 'file',
+        //     fileName: filename,
+        //     mimeType: 'image/jpeg',
+        //     chunkedMode: false,
+        //     headers: headers,
+        //     params: {
+        //         fileName: filename,
+        //         product_id: product_id
+        //     }
+        // }; 
+        // return ft.upload(base64Img, this.userService.api_url + 'rest/upload-image', options, false)
+        // .then((result: any) => {
+        //     //this.success(result);
+        //     console.log("Upload success");
+        //     return true;
+        // }).catch((error: any) => {
+        //     console.log("Upload failed");
+        //     return false;
+        // }); 
     }
     
 /*    upload = (image: string, product_id) : resp => { 

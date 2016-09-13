@@ -60,7 +60,7 @@ export class EditProductPage {
     this.base64Image.splice(index,1);
   }
   uploadBaseImage(baseImg) {
-    this.productService.uploadImage(this.product.id, baseImg).then((resp)=>{
+    this.productService.uploadImage(this.product.id, baseImg).subscribe((resp)=>{
       return true;
     });
   }
