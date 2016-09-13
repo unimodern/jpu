@@ -16,7 +16,7 @@ import {ProductPage} from '../product/product';
 })
 export class EditProductPage {
   private product: any;
-  public base64Image: Array<string> = [];
+  public base64Image: Array<any> = [];
   constructor(
       private productService: ProductService, 
       private navCtrl: NavController,
@@ -35,7 +35,7 @@ export class EditProductPage {
         correctOrientation: true,
         quality: 100
     }).then((imageData) => {
-        this.base64Image.push("data:image/jpeg;base64," + imageData);
+        this.base64Image.push({img: "data:image/jpeg;base64," + imageData, uploaded: false});
     }, (err) => {
         console.log(err);
     });
@@ -62,8 +62,9 @@ export class EditProductPage {
   }
   uploadBaseImage(baseImg) {
     let loader = this.presentLoading();
-    this.productService.uploadImage(this.product.id, baseImg).subscribe((resp)=>{
+    this.productService.uploadImage(this.product.id, baseImg.img).subscribe((resp)=>{
       loader.dismiss();
+      baseImg.uploaded = true;
       return true;
     });
   }
