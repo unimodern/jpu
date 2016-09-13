@@ -30,6 +30,8 @@ export class EditProductPage {
   takePicture(){ 
     Camera.getPicture({
         destinationType: Camera.DestinationType.DATA_URL,
+        targetWidth: 640,
+        targetHeight: 480,
         correctOrientation: true,
         quality: 100
     }).then((imageData) => {

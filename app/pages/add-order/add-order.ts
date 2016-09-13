@@ -36,7 +36,7 @@ export class AddOrderPage {
                 console.log(i+"|"+j+"|"+k);
               }
           }
-      console.log(JSON.stringify(this.products));
+      //console.log(JSON.stringify(this.products));
   }
   addToCart(index){
     for(let i = 0; i < this.products.length; i++)
@@ -50,7 +50,7 @@ export class AddOrderPage {
                 if(this.products[i].option[j].items[k].value) { 
                   console.log("i|j|k: "+i+"|"+j+"|"+k);
                   opt.push({i,j,k});
-                  console.log("opt"+JSON.stringify(opt));
+                  //console.log("opt"+JSON.stringify(opt));
               }
         let hash = JSON.stringify(opt).split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
         if(typeof this.order[hash] == "undefined") {
