@@ -119,17 +119,23 @@ export class ProductService {
         );
     }
     uploadImage(product_id, base64Img) {
-        console.log("Uploading image for product: " + product_id + "|" + base64Img);
+        console.log("Uploading image for product: " + product_id + "|" );
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
 /*        base64Image.forEach((image) => {
             this.upload(image, product.id);
         });*/
-        headers.append('product_id', product_id); 
-        headers.append('base64Img', base64Img); 
+        //headers.append('product_id', product_id); 
+        //headers.append('base64Img', base64Img);
+        let body = JSON.stringify({
+            product_id: product_id,
+            base64Img: base64Img
+            });
+        console.log("headers: "+JSON.stringify(headers));
+        console.log("body: "+JSON.stringify(body));
         return this.http
-          .get(this.userService.api_url + 'rest/upload-image', { headers })
+          .post(this.userService.api_url + 'rest/upload-image', body, headers )
           .map(res => res.json())
           .map(res => {
                 this.products = res.products;
