@@ -59,7 +59,9 @@ export class EditProductPage {
     this.base64Image.splice(index,1);
   }
   uploadBaseImage(baseImg) {
+    let loader = this.presentLoading();
     this.productService.uploadImage(this.product.id, baseImg).subscribe((resp)=>{
+      loader.dismiss();
       return true;
     });
   }
@@ -69,6 +71,7 @@ export class EditProductPage {
       dismissOnPageChange: true
     });
     loader.present();
+    return loader;
   }
 
 }
