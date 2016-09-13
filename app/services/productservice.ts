@@ -119,9 +119,9 @@ export class ProductService {
         );
     }
     uploadImage(product_id, base64Img) {
-        console.log("Uploading image for product: " + product_id);
+        console.log("Uploading image for product: " + product_id + "|" + base64Img);
         let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         console.log("Authorization:" + this.userService.getToken());
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":"));         
         let ft = new Transfer();

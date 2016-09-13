@@ -4,6 +4,7 @@ import {OrderService} from '../../services/orderservice';
 import {ProductService} from '../../services/productservice';
 import {UserService} from '../../services/userservice';
 import {OrderPage} from '../order/order';
+import {AddOrderPage} from '../add-order/add-order';
 import {LoginPage} from '../login/login';
 
 @Component({
@@ -43,5 +44,8 @@ export class OrdersPage {
   itemSelected(order_id) { 
     console.log("Heading OrderPage: "+order_id);
     this.navCtrl.push(OrderPage, this.orderService.getOrder(order_id));
+  }
+  addOrder(){
+    this.navCtrl.push(AddOrderPage);
   }
 }
