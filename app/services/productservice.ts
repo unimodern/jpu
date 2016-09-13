@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {UserService} from './userservice';
 import {Transfer} from 'ionic-native';
@@ -123,6 +123,7 @@ export class ProductService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
+        let options = new RequestOptions({ headers: headers });
 /*        base64Image.forEach((image) => {
             this.upload(image, product.id);
         });*/
@@ -135,7 +136,7 @@ export class ProductService {
         console.log("headers: "+JSON.stringify(headers));
         console.log("body: "+JSON.stringify(body));
         return this.http
-          .post(this.userService.api_url + 'rest/upload-image', body, headers )
+          .post(this.userService.api_url + 'rest/upload-image', body, options )
           .map(res => res.json())
           .map(res => {
                 this.products = res.products;
