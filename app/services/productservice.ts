@@ -124,11 +124,6 @@ export class ProductService {
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         let options = new RequestOptions({ headers: headers });
-/*        base64Image.forEach((image) => {
-            this.upload(image, product.id);
-        });*/
-        //headers.append('product_id', product_id); 
-        //headers.append('base64Img', base64Img);
         let body = JSON.stringify({
             product_id: product_id,
             base64Img: base64Img
