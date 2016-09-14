@@ -32,7 +32,8 @@
     </ion-item>
   
   </ion-list>
-  <button (click)="takePicture()">Take a Picture</button>
+  <button (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
+  <button (click)="uploadPicture()"><ion-icon name="image"></ion-icon></button>
   
   <div *ngIf="base64Image">
     <ion-card *ngFor="let base64Img of base64Image">
