@@ -99,10 +99,12 @@ export class ProductService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
-/*        base64Image.forEach((image) => {
-            this.upload(image, product.id);
+        let base64Imgs = [];
+        base64Image.forEach((image) => {
+            base64Imgs.push(image.id);
         });
-*/        headers.append('Product', JSON.stringify(product)); 
+        headers.append('Product', JSON.stringify(product)); 
+        headers.append('base64Imgs', JSON.stringify(base64Imgs)); 
         return this.http
           .get(this.userService.api_url + 'rest/save-product', { headers })
           .map(res => res.json())
