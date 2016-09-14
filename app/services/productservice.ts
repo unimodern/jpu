@@ -134,10 +134,8 @@ export class ProductService {
           .post(this.userService.api_url + 'rest/upload-image', body, options )
           .map(res => res.json())
           .map(res => {
-                this.products = res.products;
                 console.log("ProductService.upload-image done");
-                this.fetched = true;
-                return this.products;
+                return res;
               },
             err => {
               console.log("http fail!");

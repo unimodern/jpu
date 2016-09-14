@@ -62,14 +62,14 @@ export class EditProductPage {
   }
   uploadBaseImage(baseImg) {
     let loader = this.presentLoading();
-    this.productService.uploadImage(this.product.id, baseImg.img).subscribe((resp)=>{
+    this.productService.uploadImage(this.product.id, baseImg.img).subscribe(res => {
       loader.dismiss();
-      console.log("resp: "+JSON.stringify(resp));
-      if(resp.result) {
+      console.log("res: "+JSON.stringify(res));
+      if(res.result) {
         baseImg.uploaded = true;
-        baseImg.id = resp.id;
+        baseImg.id = res.id;
       }
-      return resp.id;
+      return res.id;
     });
   }
   presentLoading() {
