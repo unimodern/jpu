@@ -11,15 +11,18 @@ import {LoginPage} from '../login/login';
   templateUrl: 'build/pages/orders/orders.html',
 }) 
 export class OrdersPage {
-  private orders : any;
+  private orders: any;
+  private _status: any;
+  searchQuery: string = '';
   constructor( 
     private productService: ProductService, 
     private orderService: OrderService, 
     private navCtrl: NavController,
     private userService: UserService
     ) {
+      this._status = orderService._status;
       this.userService.isLoggedIn().then((res)=>{
-        console.log("orders: " + res)
+        console.log("orders: " + res);
         if(!res) {
             navCtrl.setRoot(LoginPage);
           }
@@ -47,5 +50,18 @@ export class OrdersPage {
   }
   addOrder(){
     this.navCtrl.push(AddOrderPage);
+  }
+  callIt(passedNumber){
+    window.location = passedNumber;
+  }
+  getItems(ev: any) {
+    let val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.orders = this.orderService.getOrders().filter((order) => {
+        return (order.name.toLowerCase().indexOf(val.toLowerCase()) > -1) || (order.phone.replace(/\D/g,'').indexOf(val.replace(/\(\)\-\+/g,'')) > -1) || (order.pin.indexOf(val) > -1);
+      })
+    } else {
+      this.orders = this.orderService.getOrders(); 
+    }
   }
 }
