@@ -28,6 +28,7 @@
     <button block (click)="changeStatus()">
       Change status
     </button>
+    <div *ngIf="typeof(product.option) !== 'undefined'">
       <h3>Options</h3>
       <p *ngFor="let options of product.option">
         <b>{{options.title}}: </b>
@@ -35,6 +36,7 @@
           {{item.title}}(${{item.price/100}}), 
         </span>
       </p>
+    </div>
     </ion-col>
     <ion-col width-65>
       <ion-slides [options]="mySlideOptions">
