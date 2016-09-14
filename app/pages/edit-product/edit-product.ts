@@ -35,7 +35,7 @@ export class EditProductPage {
         correctOrientation: true,
         quality: 100
     }).then((imageData) => {
-        this.base64Image.push({img: "data:image/jpeg;base64," + imageData, uploaded: false});
+        this.base64Image.push({img: "data:image/jpeg;base64," + imageData, uploaded: false, id: null});
     }, (err) => {
         console.log(err);
     });
@@ -64,8 +64,12 @@ export class EditProductPage {
     let loader = this.presentLoading();
     this.productService.uploadImage(this.product.id, baseImg.img).subscribe((resp)=>{
       loader.dismiss();
-      baseImg.uploaded = true;
-      return true;
+      console.log("resp: "+JSON.stringify(resp));
+      if(resp.result) {
+        baseImg.uploaded = true;
+        baseImg.id = resp.id;
+      }
+      return resp.id;
     });
   }
   presentLoading() {

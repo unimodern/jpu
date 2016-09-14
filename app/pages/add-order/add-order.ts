@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import {OrderService} from '../../services/orderservice';
 import {ProductService} from '../../services/productservice';
 import {UserService} from '../../services/userservice';
-
+import {ShoppingCartPage} from '../shopping-cart/shopping-cart';
 /*
   Generated class for the AddOrderPage page.
 
@@ -14,16 +14,17 @@ import {UserService} from '../../services/userservice';
   templateUrl: 'build/pages/add-order/add-order.html',
 })
 export class AddOrderPage {
-    private order: any;
     private products: any;
+    private spinner: boolean;
   constructor( 
     private productService: ProductService, 
     private orderService: OrderService, 
     private navCtrl: NavController,
-    private userService: UserService
+    private userService: UserService,
+    public modalCtrl: ModalController
     ) {
       console.log("AddOrderPage - constructor");
-      this.order = [];
+      this.spinner = false;
       this.products = productService.getProducts();
       // console.log(JSON.stringify(this.products));
       for(let i = 0; i < this.products.length; i++)
@@ -39,6 +40,9 @@ export class AddOrderPage {
       //console.log(JSON.stringify(this.products));
   }
   addToCart(index){
+    this.spinner = true;
+    console.log("spinner: "+this.spinner);
+    console.log("order before: "+JSON.stringify(this.orderService.order));
     for(let i = 0; i < this.products.length; i++)
       if(i === index) {
         var opt: any;
@@ -47,20 +51,39 @@ export class AddOrderPage {
           for(let j = 0; j < this.products[i].option.length; j++)
             if(typeof(this.products[i].option[j].items) !== 'undefined')
               for(let k = 0; k < this.products[i].option[j].items.length; k++) 
-                if(this.products[i].option[j].items[k].value) { 
-                  console.log("i|j|k: "+i+"|"+j+"|"+k);
-                  opt.push({i,j,k});
-                  //console.log("opt"+JSON.stringify(opt));
+                if(this.products[i].option[j].items[k].value || this.products[i].option[j].type === "or") { 
+                  console.log("i|j|k: "+i+"|"+j+"|"+k+"|"+this.products[i].option[j].value);
+                  opt.push({i:i,j:j,k:k,v:this.products[i].option[j].value});
               }
-        let hash = JSON.stringify(opt).split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
-        if(typeof this.order[hash] == "undefined") {
-          this.order[hash] = {product: this.products[i], quantity: 1};
-        } else {
-          this.order[hash].quantity++;
+        console.log("opt"+JSON.stringify(opt));
+        let hash = (JSON.stringify(opt).split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString();
+        console.log("hash: "+hash);
+        let found = false;
+        for(var j=0; j< this.orderService.order.length; j++)
+          if(this.orderService.order[j].hash === hash) {
+            this.orderService.order[j].quantity++;
+            found = true
+            //console.log("product: "+JSON.stringify(this.products[i]));
+            console.log("this.orderService.order[j] |"+j+"|"+JSON.stringify(this.orderService.order[j]));
+            this.spinner = false;
+          } 
+        if(!found) {
+          this.orderService.order[j] = {product: JSON.parse(JSON.stringify(this.products[i])), quantity: 1, hash: hash};
+          //console.log("product: "+JSON.stringify(this.products[i]));
+          //console.log("this.orderService.order[hash].product: "+JSON.stringify(this.orderService.order));
+          console.log("this.orderService.order[j] new: "+j+"|"+JSON.stringify(this.orderService.order[j]));
+          this.spinner = false;
         }
       }
-    console.log(JSON.stringify(this.products));
-    console.log(JSON.stringify(this.order));
+    //console.log("products: "+JSON.stringify(this.products));
+    console.log("order after: "+JSON.stringify(this.orderService.order));
+    
+    console.log("spinner: "+this.spinner);
+    return true;
   }
-
+  presentCart() {
+    console.log("presentCart: "+JSON.stringify(this.orderService.order));
+    let modal = this.modalCtrl.create(ShoppingCartPage, {order: this.orderService.order});
+    modal.present();
+  }
 }

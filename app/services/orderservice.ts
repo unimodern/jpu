@@ -11,10 +11,11 @@ export class OrderService {
     
     private storage :Storage;
     private orders :any;
-    private order :any;
+    public order :any;
     private fetched = false;
 
     constructor(private http:Http, private productService: ProductService, private userService: UserService) {
+      this.order = [];
     }
   
     fetchOrders() {

@@ -8,6 +8,12 @@
 
   <ion-navbar>
     <ion-title>New Order</ion-title>
+      <ion-spinner name="bubbles" *ngIf="spinner"></ion-spinner>
+    <ion-buttons end>
+      <button clear small (click)="presentCart()">
+        <ion-icon name="cart"></ion-icon>
+      </button>
+    </ion-buttons>  
   </ion-navbar>
 
 </ion-header>
@@ -43,7 +49,7 @@
           </ion-list-header>
           <ion-item *ngFor="let item of option.items; let k = index">
               <ion-label>{{item.title}} / ${{item.price/100}}</ion-label>
-              <ion-radio (value)="item.title"></ion-radio>
+              <ion-radio value="{{item.title}}"></ion-radio>
           </ion-item>
         </ion-list>
       </div>
