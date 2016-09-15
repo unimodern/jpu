@@ -1,0 +1,7 @@
+{
+    "name": "JP Admin app for Heroku",
+    "description": "A simple Ionic app for Heroku",
+    "repository": "https://unimodern.visualstudio.com/DefaultCollection/justpickup/_git/jp-admin-app",
+    "logo": "",
+    "keywords": ["ionic", "jp"]
+}

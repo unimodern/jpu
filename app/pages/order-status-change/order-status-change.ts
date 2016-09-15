@@ -12,18 +12,26 @@ import {OrderService} from '../../services/orderservice';
   templateUrl: 'build/pages/order-status-change/order-status-change.html',
 })
 export class OrderStatusChangePage {
-	private order: any;
+  private order: any;
+  private sendTextMessage: boolean;
+  private textMessage: string;
+  private oldMessage = "";
 
-  constructor(
+  constructor( 
     private navCtrl: NavController,
     private orderService: OrderService, 
     private navParams: NavParams,
     public viewCtrl: ViewController
-    ) {
+    ) { 
     this.order = this.navParams.get('order');
-    console.log("in shopping cart: " + JSON.stringify(this.order));
+    this.sendTextMessage = true;
+    console.log("in shopping cart: " + this.order.id);
   }
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+  changeTextMessage(text){
+    this.oldMessage = this.textMessage;
+    this.textMessage = text;
   }
 }

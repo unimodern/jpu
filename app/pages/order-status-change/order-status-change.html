@@ -20,5 +20,20 @@
 
 
 <ion-content padding>
-
+	<ion-item>
+	  <ion-label> Send text message</ion-label>
+	  <ion-toggle [(ngModel)]="sendTextMessage"></ion-toggle>
+	</ion-item>
+    <ion-segment [(ngModel)]="order.status">
+      <ion-segment-button (click)="changeTextMessage(orderService._statusMap['Ordered'].message)" value="{{orderService._statusMap['Ordered'].value}}">Ordered</ion-segment-button>
+      <ion-segment-button (click)="changeTextMessage(orderService._statusMap['Confirmed'].message)" value="{{orderService._statusMap['Confirmed'].value}}">Confirmed</ion-segment-button>
+      <ion-segment-button (click)="changeTextMessage(orderService._statusMap['Ready'].message)" value="{{orderService._statusMap['Ready'].value}}">Ready</ion-segment-button>
+      <ion-segment-button (click)="changeTextMessage(orderService._statusMap['Picked up'].message)" value="{{orderService._statusMap['Picked up'].value}}">Picked up</ion-segment-button>
+      <ion-segment-button (click)="changeTextMessage(orderService._statusMap['Cancelled'].message)" value="{{orderService._statusMap['Cancelled'].value}}">Cancelled</ion-segment-button> 
+  	</ion-segment>
+	<ion-item *ngIf="sendTextMessage">
+    	<ion-label floating>Text</ion-label>
+   		<ion-textarea rows="6" [(ngModel)]="textMessage"></ion-textarea>
+      <button light outline><ion-icon *ngIf="oldMessage" (click)="textMessage = oldMessage; oldMessage = '';" name="undo"></ion-icon></button>
+ 	</ion-item>
 </ion-content>
