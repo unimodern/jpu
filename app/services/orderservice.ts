@@ -4,6 +4,7 @@ import { Storage, SqlStorage } from 'ionic-angular';
 import {ProductService} from './productservice';
 import {UserService} from './userservice';
 import {Observable} from 'rxjs/Rx';
+import {RestService} from './restservice';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -29,7 +30,7 @@ export class OrderService {
     };
 
 
-    constructor(private http:Http, private productService: ProductService, private userService: UserService) {
+    constructor(private http:Http, private productService: ProductService, private userService: UserService, private restService: RestService) {
       this.order = [];
     }
   
@@ -41,7 +42,7 @@ export class OrderService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         //console.log("this:"+JSON.stringify(this));
         return this.http
-          .get(this.userService.api_url + 'rest/orders', { headers })
+          .get(this.restService.api_url + 'rest/orders', { headers })
           .map(res => res.json())
           .map(res => {
                 console.log("res:"+res.orders);
@@ -91,7 +92,7 @@ export class OrderService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         //console.log("this:"+JSON.stringify(this));
         return this.http
-          .get(this.userService.api_url + 'rest/change-order-status?id='+order_id+'&status='+status, { headers })
+          .get(this.restService.api_url + 'rest/change-order-status?id='+order_id+'&status='+status, { headers })
           .map(res => res.json())
           .map(res => {
                 console.log("OrderService.changeStatus done");

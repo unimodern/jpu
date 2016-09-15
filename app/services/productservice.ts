@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {UserService} from './userservice';
+import {RestService} from './restservice';
 import {Transfer} from 'ionic-native';
 import 'rxjs/add/operator/map';
 
@@ -16,7 +17,7 @@ export class ProductService {
         30: {text: "Archived", color: "light"},
     };
 
-    constructor(private http:Http, private userService: UserService) {
+    constructor(private http:Http, private userService: UserService, private restService: RestService) {
         this.fetched = false;
     }
   
@@ -29,7 +30,7 @@ export class ProductService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         //console.log("this:"+JSON.stringify(this));
         return this.http
-          .get(this.userService.api_url + 'rest/products', { headers })
+          .get(this.restService.api_url + 'rest/products', { headers })
           .map(res => res.json())
           .map(res => {
                 console.log("res:"+res.products);
@@ -79,7 +80,7 @@ export class ProductService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         //console.log("this:"+JSON.stringify(this));
         return this.http
-          .get(this.userService.api_url + 'rest/change-product-status?id='+product_id+'&status='+status, { headers })
+          .get(this.restService.api_url + 'rest/change-product-status?id='+product_id+'&status='+status, { headers })
           .map(res => res.json())
           .map(res => {
                 this.products = res.products;
@@ -113,7 +114,7 @@ export class ProductService {
         // headers.append('Product', JSON.stringify(product)); 
         // headers.append('base64Imgs', JSON.stringify(base64Imgs)); 
         return this.http
-          .post(this.userService.api_url + 'rest/save-product', body, options )
+          .post(this.restService.api_url + 'rest/save-product', body, options )
           .map(res => res.json())
           .map(res => {
                 this.products = res.products;
@@ -140,7 +141,7 @@ export class ProductService {
         console.log("headers: "+JSON.stringify(headers));
         console.log("body: "+JSON.stringify(body));
         return this.http
-          .post(this.userService.api_url + 'rest/upload-image', body, options )
+          .post(this.restService.api_url + 'rest/upload-image', body, options )
           .map(res => res.json())
           .map(res => {
                 console.log("ProductService.upload-image done");
@@ -169,7 +170,7 @@ export class ProductService {
         //         product_id: product_id
         //     }
         // }; 
-        // return ft.upload(base64Img, this.userService.api_url + 'rest/upload-image', options, false)
+        // return ft.upload(base64Img, this.restService.api_url + 'rest/upload-image', options, false)
         // .then((result: any) => {
         //     //this.success(result);
         //     console.log("Upload success");
@@ -196,7 +197,7 @@ export class ProductService {
                 product_id: product_id
             }
         }; 
-        return ft.upload(image, this.userService.api_url + 'rest/upload-image', options, false)
+        return ft.upload(image, this.restService.api_url + 'rest/upload-image', options, false)
         .then((result: any) => {
             //this.success(result);
             console.log("Upload success");

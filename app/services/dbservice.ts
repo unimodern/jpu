@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import {ProductService} from './productservice';
 import {UserService} from './userservice';
 import {OrderService} from './orderservice';
-
+import {RestService} from './restservice';
 /*
   Generated class for the DbService provider.
 
@@ -19,6 +19,7 @@ export class DbService {
     private http: Http, 
     private userService: UserService,
     private orderService: OrderService,
+    private restService: RestService,
     private productService: ProductService
     ) {}
     fetchAll() {
@@ -29,7 +30,7 @@ export class DbService {
         headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
         //console.log("this:"+JSON.stringify(this));
         return this.http
-          .get(this.userService.api_url + 'rest/orders-products', { headers })
+          .get(this.restService.api_url + 'rest/orders-products', { headers })
           .map(res => res.json())
           .map(res => {
                 console.log("res:"+res.orders);

@@ -864,6 +864,7 @@ require('rxjs/add/operator/map');
 var productservice_1 = require('./productservice');
 var userservice_1 = require('./userservice');
 var orderservice_1 = require('./orderservice');
+var restservice_1 = require('./restservice');
 /*
   Generated class for the DbService provider.
 
@@ -871,10 +872,11 @@ var orderservice_1 = require('./orderservice');
   for more info on providers and Angular 2 DI.
 */
 var DbService = (function () {
-    function DbService(http, userService, orderService, productService) {
+    function DbService(http, userService, orderService, restService, productService) {
         this.http = http;
         this.userService = userService;
         this.orderService = orderService;
+        this.restService = restService;
         this.productService = productService;
     }
     DbService.prototype.fetchAll = function () {
@@ -886,7 +888,7 @@ var DbService = (function () {
         headers.append('Authorization', "Basic " + window.btoa(this.userService.getToken() + ":"));
         //console.log("this:"+JSON.stringify(this));
         return this.http
-            .get(this.userService.api_url + 'rest/orders-products', { headers: headers })
+            .get(this.restService.api_url + 'rest/orders-products', { headers: headers })
             .map(function (res) { return res.json(); })
             .map(function (res) {
             console.log("res:" + res.orders);
@@ -904,13 +906,13 @@ var DbService = (function () {
     };
     DbService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, userservice_1.UserService, orderservice_1.OrderService, productservice_1.ProductService])
+        __metadata('design:paramtypes', [http_1.Http, userservice_1.UserService, orderservice_1.OrderService, restservice_1.RestService, productservice_1.ProductService])
     ], DbService);
     return DbService;
 }());
 exports.DbService = DbService;
 
-},{"./orderservice":15,"./productservice":16,"./userservice":18,"@angular/core":166,"@angular/http":293,"rxjs/add/operator/map":594}],15:[function(require,module,exports){
+},{"./orderservice":15,"./productservice":16,"./restservice":17,"./userservice":18,"@angular/core":166,"@angular/http":293,"rxjs/add/operator/map":594}],15:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -925,12 +927,14 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var productservice_1 = require('./productservice');
 var userservice_1 = require('./userservice');
+var restservice_1 = require('./restservice');
 require('rxjs/add/operator/map');
 var OrderService = (function () {
-    function OrderService(http, productService, userService) {
+    function OrderService(http, productService, userService, restService) {
         this.http = http;
         this.productService = productService;
         this.userService = userService;
+        this.restService = restService;
         this.fetched = false;
         this._status = {
             10: { text: "Ordered", color: "primary" },
@@ -957,7 +961,7 @@ var OrderService = (function () {
         headers.append('Authorization', "Basic " + window.btoa(this.userService.getToken() + ":"));
         //console.log("this:"+JSON.stringify(this));
         return this.http
-            .get(this.userService.api_url + 'rest/orders', { headers: headers })
+            .get(this.restService.api_url + 'rest/orders', { headers: headers })
             .map(function (res) { return res.json(); })
             .map(function (res) {
             console.log("res:" + res.orders);
@@ -1002,7 +1006,7 @@ var OrderService = (function () {
         headers.append('Authorization', "Basic " + window.btoa(this.userService.getToken() + ":"));
         //console.log("this:"+JSON.stringify(this));
         return this.http
-            .get(this.userService.api_url + 'rest/change-order-status?id=' + order_id + '&status=' + status, { headers: headers })
+            .get(this.restService.api_url + 'rest/change-order-status?id=' + order_id + '&status=' + status, { headers: headers })
             .map(function (res) { return res.json(); })
             .map(function (res) {
             console.log("OrderService.changeStatus done");
@@ -1013,13 +1017,13 @@ var OrderService = (function () {
     };
     OrderService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, productservice_1.ProductService, userservice_1.UserService])
+        __metadata('design:paramtypes', [http_1.Http, productservice_1.ProductService, userservice_1.UserService, restservice_1.RestService])
     ], OrderService);
     return OrderService;
 }());
 exports.OrderService = OrderService;
 
-},{"./productservice":16,"./userservice":18,"@angular/core":166,"@angular/http":293,"rxjs/add/operator/map":594}],16:[function(require,module,exports){
+},{"./productservice":16,"./restservice":17,"./userservice":18,"@angular/core":166,"@angular/http":293,"rxjs/add/operator/map":594}],16:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1033,11 +1037,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var userservice_1 = require('./userservice');
+var restservice_1 = require('./restservice');
 require('rxjs/add/operator/map');
 var ProductService = (function () {
-    function ProductService(http, userService) {
+    function ProductService(http, userService, restService) {
         this.http = http;
         this.userService = userService;
+        this.restService = restService;
         this._status = {
             10: { text: "Active", color: "primary" },
             20: { text: "Inactive", color: "danger" },
@@ -1055,7 +1061,7 @@ var ProductService = (function () {
         headers.append('Authorization', "Basic " + window.btoa(this.userService.getToken() + ":"));
         //console.log("this:"+JSON.stringify(this));
         return this.http
-            .get(this.userService.api_url + 'rest/products', { headers: headers })
+            .get(this.restService.api_url + 'rest/products', { headers: headers })
             .map(function (res) { return res.json(); })
             .map(function (res) {
             console.log("res:" + res.products);
@@ -1102,7 +1108,7 @@ var ProductService = (function () {
         headers.append('Authorization', "Basic " + window.btoa(this.userService.getToken() + ":"));
         //console.log("this:"+JSON.stringify(this));
         return this.http
-            .get(this.userService.api_url + 'rest/change-product-status?id=' + product_id + '&status=' + status, { headers: headers })
+            .get(this.restService.api_url + 'rest/change-product-status?id=' + product_id + '&status=' + status, { headers: headers })
             .map(function (res) { return res.json(); })
             .map(function (res) {
             _this.products = res.products;
@@ -1132,7 +1138,7 @@ var ProductService = (function () {
         // headers.append('Product', JSON.stringify(product)); 
         // headers.append('base64Imgs', JSON.stringify(base64Imgs)); 
         return this.http
-            .post(this.userService.api_url + 'rest/save-product', body, options)
+            .post(this.restService.api_url + 'rest/save-product', body, options)
             .map(function (res) { return res.json(); })
             .map(function (res) {
             _this.products = res.products;
@@ -1158,7 +1164,7 @@ var ProductService = (function () {
         console.log("headers: " + JSON.stringify(headers));
         console.log("body: " + JSON.stringify(body));
         return this.http
-            .post(this.userService.api_url + 'rest/upload-image', body, options)
+            .post(this.restService.api_url + 'rest/upload-image', body, options)
             .map(function (res) { return res.json(); })
             .map(function (res) {
             console.log("ProductService.upload-image done");
@@ -1184,7 +1190,7 @@ var ProductService = (function () {
         //         product_id: product_id
         //     }
         // }; 
-        // return ft.upload(base64Img, this.userService.api_url + 'rest/upload-image', options, false)
+        // return ft.upload(base64Img, this.restService.api_url + 'rest/upload-image', options, false)
         // .then((result: any) => {
         //     //this.success(result);
         //     console.log("Upload success");
@@ -1196,13 +1202,13 @@ var ProductService = (function () {
     };
     ProductService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, userservice_1.UserService])
+        __metadata('design:paramtypes', [http_1.Http, userservice_1.UserService, restservice_1.RestService])
     ], ProductService);
     return ProductService;
 }());
 exports.ProductService = ProductService;
 
-},{"./userservice":18,"@angular/core":166,"@angular/http":293,"rxjs/add/operator/map":594}],17:[function(require,module,exports){
+},{"./restservice":17,"./userservice":18,"@angular/core":166,"@angular/http":293,"rxjs/add/operator/map":594}],17:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1260,7 +1266,6 @@ var UserService = (function () {
         this.authToken = null;
         this.api_url = false ? "https://jpweb-unimodern.c9users.io/" : "/";
         this.storage = new ionic_angular_1.Storage(ionic_angular_1.SqlStorage);
-        this.api_url = restService.api_url;
     }
     UserService.prototype.loadToken = function () {
         var _this = this;
@@ -1280,7 +1285,7 @@ var UserService = (function () {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         return this.http
-            .post(this.api_url + 'rest/login', JSON.stringify({ username: username, password: password }), { headers: headers })
+            .post(this.restService.api_url + 'rest/login', JSON.stringify({ username: username, password: password }), { headers: headers })
             .map(function (res) { return res.json(); })
             .map(function (res) {
             //console.log("login in userservice: " + JSON.stringify(res));

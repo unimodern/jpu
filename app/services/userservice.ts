@@ -14,7 +14,6 @@ export class UserService {
 
   constructor(private http: Http, private restService: RestService) {
     this.storage = new Storage(SqlStorage);
-    this.api_url = restService.api_url;
   }
   
   loadToken(){
@@ -39,7 +38,7 @@ export class UserService {
 
     return this.http
       .post(
-        this.api_url+'rest/login', 
+        this.restService.api_url+'rest/login', 
         JSON.stringify({ username, password }), 
         { headers }
       )
