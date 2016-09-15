@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, ModalController} from 'ionic-angular';
 import {OrderService} from '../../services/orderservice';
 import {ProductService} from '../../services/productservice';
 import {UserService} from '../../services/userservice';
 import {OrderPage} from '../order/order';
 import {AddOrderPage} from '../add-order/add-order';
 import {LoginPage} from '../login/login';
+import {OrderStatusChangePage} from '../order-status-change/order-status-change';
 
 @Component({
   templateUrl: 'build/pages/orders/orders.html',
@@ -18,7 +19,8 @@ export class OrdersPage {
     private productService: ProductService, 
     private orderService: OrderService, 
     private navCtrl: NavController,
-    private userService: UserService
+    private userService: UserService,
+    public modalCtrl: ModalController
     ) {
       this._status = orderService._status;
       this.userService.isLoggedIn().then((res)=>{
@@ -64,4 +66,9 @@ export class OrdersPage {
       this.orders = this.orderService.getOrders(); 
     }
   }
+  changeOrderStatus(order) {
+    console.log("changeOrderStatus: "+JSON.stringify(order));
+    let modal = this.modalCtrl.create(OrderStatusChangePage, {order: order});
+    modal.present();
+  }  
 }

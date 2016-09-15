@@ -75,5 +75,23 @@ export class OrderService {
       console.log("setting fetched orders: " + fetched);
       this.fetched = fetched;
     }
-
+    changeStatus(order_id, status) {
+        console.log("Changing order: " + order_id + " status to " + status);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        console.log("Authorization:" + this.userService.getToken());
+        headers.append('Authorization', "Basic "+ window.btoa(this.userService.getToken()+":")); 
+        //console.log("this:"+JSON.stringify(this));
+        return this.http
+          .get(this.userService.api_url + 'rest/change-order-status?id='+order_id+'&status='+status, { headers })
+          .map(res => res.json())
+          .map(res => {
+                console.log("OrderService.changeStatus done");
+                return res;
+              },
+            err => {
+              console.log("http fail!");
+            } 
+        );
+    }
 }
