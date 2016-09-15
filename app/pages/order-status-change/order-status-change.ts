@@ -23,5 +23,7 @@ export class OrderStatusChangePage {
     this.order = this.navParams.get('order');
     console.log("in shopping cart: " + JSON.stringify(this.order));
   }
-
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
 }
