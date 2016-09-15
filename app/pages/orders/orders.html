@@ -16,18 +16,18 @@
 </ion-refresher>
 <ion-list>
   <ion-item-sliding *ngFor="let order of orders">
-    <ion-item-options>
-      <button primary (click)="changeOrderStatus(order)">
-        <ion-icon name="text"></ion-icon>
-      </button>
-    </ion-item-options>
     <ion-item>
       <h2>#{{order.pin}}</h2>
       <p>{{order.name}}</p>
       <p>{{order.phone}}</p>
       <ion-badge [ngClass]="'badge-' + _status[order.status]['color']" item-right> {{_status[order.status]["text"]}}</ion-badge>
     </ion-item>
-    <ion-item-options>
+    <ion-item-options side="left">
+      <button primary (click)="changeOrderStatus(order)" (ionSwipe)="itemSelected(order.id)">
+        <ion-icon name="text"></ion-icon>
+      </button>
+    </ion-item-options>
+    <ion-item-options side="right">
       <button light (click)="itemSelected(order.id)">
         <ion-icon name="ios-more"></ion-icon>
       </button>
