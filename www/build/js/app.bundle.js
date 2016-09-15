@@ -16,6 +16,7 @@ var dispatch_1 = require('./pages/dispatch/dispatch');
 var userservice_1 = require('./services/userservice');
 var orderservice_1 = require('./services/orderservice');
 var productservice_1 = require('./services/productservice');
+var restservice_1 = require('./services/restservice');
 var App = (function () {
     function App(platform) {
         this.platform = platform;
@@ -29,16 +30,16 @@ var App = (function () {
     App = __decorate([
         core_1.Component({
             template: '<ion-nav [root]="rootPage"></ion-nav>',
-            providers: [userservice_1.UserService, orderservice_1.OrderService, productservice_1.ProductService]
+            providers: [userservice_1.UserService, orderservice_1.OrderService, productservice_1.ProductService, restservice_1.RestService]
         }), 
         __metadata('design:paramtypes', [ionic_angular_1.Platform])
     ], App);
     return App;
 }());
 exports.App = App;
-ionic_angular_1.ionicBootstrap(App, [userservice_1.UserService, orderservice_1.OrderService, productservice_1.ProductService]);
+ionic_angular_1.ionicBootstrap(App, [userservice_1.UserService, orderservice_1.OrderService, productservice_1.ProductService, restservice_1.RestService]);
 
-},{"./pages/dispatch/dispatch":3,"./services/orderservice":15,"./services/productservice":16,"./services/userservice":18,"@angular/core":166,"ionic-angular":480,"ionic-native":507}],2:[function(require,module,exports){
+},{"./pages/dispatch/dispatch":3,"./services/orderservice":15,"./services/productservice":16,"./services/restservice":17,"./services/userservice":18,"@angular/core":166,"ionic-angular":480,"ionic-native":507}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

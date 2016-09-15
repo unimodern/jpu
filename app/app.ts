@@ -5,11 +5,12 @@ import {DispatchPage} from './pages/dispatch/dispatch';
 import {UserService} from './services/userservice';
 import {OrderService} from './services/orderservice';
 import {ProductService} from './services/productservice';
+import {RestService} from './services/restservice';
 
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
-  providers: [UserService, OrderService, ProductService]
+  providers: [UserService, OrderService, ProductService, RestService]
 })
 export class App {
 
@@ -26,4 +27,4 @@ export class App {
   }
 }
 
-ionicBootstrap(App, [UserService, OrderService, ProductService]);
+ionicBootstrap(App, [UserService, OrderService, ProductService, RestService]);
