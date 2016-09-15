@@ -3,7 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { Storage, SqlStorage } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-
+import {RestService} from './restservice';
 
 @Injectable()
 export class UserService {
@@ -12,8 +12,9 @@ export class UserService {
   private authToken = null;
   public api_url = false ? "https://jpweb-unimodern.c9users.io/":"/";
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private restService: RestService) {
     this.storage = new Storage(SqlStorage);
+    this.api_url = restService.api_url;
   }
   
   loadToken(){
