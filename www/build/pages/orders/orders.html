@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Orders ({{orders.length}})</ion-title>
+      <ion-buttons end>
+        <button clear small (click)="addOrder()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-buttons>  
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="orders outer-content">
+<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-refresher (ionRefresh)="getOrders($event)">
+    <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+<ion-list>
+  <ion-item-sliding *ngFor="let order of orders">
+    <ion-item>
+      <h2>#{{order.pin}}</h2>
+      <p>{{order.name}}</p>
+      <p>{{order.phone}}</p>
+      <ion-badge [ngClass]="'badge-' + _status[order.status]['color']" item-right> {{_status[order.status]["text"]}}</ion-badge>
+    </ion-item>
+    <ion-item-options side="left">
+      <button primary (click)="changeOrderStatus(order)" (ionSwipe)="itemSelected(order.id)">
+        <ion-icon name="text"></ion-icon>
+      </button>
+    </ion-item-options>
+    <ion-item-options side="right">
+      <button light (click)="itemSelected(order.id)">
+        <ion-icon name="ios-more"></ion-icon>
+      </button>
+      <button secondary (click)="callIt('tel:'+order.phone)">
+        <ion-icon name="call" ></ion-icon> 
+      </button>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>
+</ion-content>

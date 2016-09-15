@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="settings">
+  <ion-list *ngIf="!loggedIn">
+   
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input [(ngModel)]="username" type="text"></ion-input>
+    </ion-item>
+   
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input [(ngModel)]="password" type="password"></ion-input>
+    </ion-item>
+   
+  <button (click)="login(username, password)">Login</button>
+  </ion-list>
+  <button (click)="logout()"  *ngIf="loggedIn">Logout</button>
+</ion-content>

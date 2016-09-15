@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Order</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="order">
+  <ion-row responsive-sm>
+    <ion-col width-25>
+    <h2>Order #{{order.pin}}</h2>
+      <p>{{order.name}}</p>
+      <p>{{order.phone}}</p>
+      <p>{{order.email}}</p>
+    </ion-col>
+    <ion-col width-50>
+      <div *ngFor="let orderProduct of order.orderProducts; let i = index">
+        <h3>
+          {{i+1}}. {{orderProduct.product.name}}
+        </h3>
+        <p *ngFor="let options of orderProduct.option">
+          <b>{{options.title}}: </b>
+          <span *ngFor="let item of options.items">
+            {{item.title}}({{item.price}}), 
+          </span>
+        </p>
+      </div>
+      <ion-row>
+        <ion-col width-40>Sub Total</ion-col>
+        <ion-col width-60>${{order.sub_total/100}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>Tip</ion-col>
+        <ion-col width-60>${{order.tip/100}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>Tax</ion-col>
+        <ion-col width-60>${{order.tax/100}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>Total</ion-col>
+        <ion-col width-60>${{order.total/100}}</ion-col>
+      </ion-row>
+
+    </ion-col>
+    <ion-col width-25>
+      <p>Client message: {{order.message}}</p>
+      <p [innerHTML]="order.note"></p>
+    </ion-col>
+
+  </ion-row>
+
+  
+  
+</ion-content>
